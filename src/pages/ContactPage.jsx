@@ -88,7 +88,7 @@ export default function ContactPage() {
       </div>
 
       <div className="contact-earth fade-in">
-        <img src="/images/earth-night.png" alt="Earth at night" />
+        <img src="/images/earth-sunrise.png" alt="Earth sunrise" />
         <div className="contact-earth-gradient"></div>
       </div>
 

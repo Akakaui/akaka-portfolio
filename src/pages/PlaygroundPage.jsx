@@ -23,50 +23,97 @@ export default function PlaygroundPage({ navigate }) {
     window.addEventListener('resize', resize)
 
     let particles = []
+    const maxRadius = Math.min(canvas.width, canvas.height) * 0.45
+
     function createParticles() {
       particles = []
+      const armsCount = 2
+      const spiralFactor = 2.0 // winding coefficient
+      
       for (let i = 0; i < count; i++) {
+        const armIndex = i % armsCount
+        // denser distribution towards core using Math.pow
+        const distance = Math.pow(Math.random(), 2.2) * maxRadius
+        const armAngle = (armIndex * Math.PI * 2) / armsCount
+        const angle = armAngle + (distance / maxRadius) * Math.PI * spiralFactor
+        
+        // spread particles out from exact arm lines
+        const spread = (1 - (distance / maxRadius) * 0.5) * 26
+        const offsetX = (Math.random() - 0.5) * spread
+        const offsetY = (Math.random() - 0.5) * spread
+
         particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * speed,
-          vy: (Math.random() - 0.5) * speed,
-          size: Math.random() * size + 0.5,
-          alpha: Math.random() * 0.7 + 0.3,
+          r: distance,
+          angle: angle + (Math.random() - 0.5) * 0.15,
+          offsetX,
+          offsetY,
+          size: Math.random() * size + 0.4,
+          colorFactor: distance / maxRadius, // 0 = core, 1 = edge
+          alpha: Math.random() * 0.6 + 0.4,
         })
       }
     }
 
+    let mouseX = canvas.width / 2
+    let mouseY = canvas.height / 2
+    let currentCenterX = canvas.width / 2
+    let currentCenterY = canvas.height / 2
+    let isHovering = false
+
+    const handleMouseMove = (e) => {
+      const rect = canvas.getBoundingClientRect()
+      mouseX = e.clientX - rect.left
+      mouseY = e.clientY - rect.top
+      isHovering = true
+    }
+
+    const handleMouseLeave = () => {
+      mouseX = canvas.width / 2
+      mouseY = canvas.height / 2
+      isHovering = false
+    }
+
+    canvas.addEventListener('mousemove', handleMouseMove)
+    canvas.addEventListener('mouseleave', handleMouseLeave)
+
     function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x
-          const dy = particles[i].y - particles[j].y
-          const dist = Math.sqrt(dx * dx + dy * dy)
-          if (dist < 100) {
-            ctx.beginPath()
-            ctx.strokeStyle = color
-            ctx.globalAlpha = (1 - dist / 100) * 0.15
-            ctx.lineWidth = 0.5
-            ctx.moveTo(particles[i].x, particles[i].y)
-            ctx.lineTo(particles[j].x, particles[j].y)
-            ctx.stroke()
-          }
-        }
-      }
+      // solid black clear but with trails
+      ctx.fillStyle = 'rgba(10, 10, 18, 0.18)'
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+      // Spring-based interpolation for galaxy core coordinates
+      currentCenterX += (mouseX - currentCenterX) * 0.08
+      currentCenterY += (mouseY - currentCenterY) * 0.08
+
+      // Additive screen blending for gorgeous overlays
+      ctx.globalCompositeOperation = 'screen'
+
       particles.forEach(p => {
+        // Differential rotation - core rotates faster
+        const rotationSpeed = 0.005 * speed * (1 / (p.r / 45 + 1))
+        p.angle += rotationSpeed
+
+        const x = currentCenterX + Math.cos(p.angle) * p.r + p.offsetX
+        const y = currentCenterY + Math.sin(p.angle) * p.r + p.offsetY
+
         ctx.beginPath()
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
-        ctx.fillStyle = color
-        ctx.globalAlpha = p.alpha
+        ctx.arc(x, y, p.size, 0, Math.PI * 2)
+
+        // Core blends to bright cyan/white, outer arms to the user-selected color
+        let fillStyle
+        if (p.colorFactor < 0.2) {
+          fillStyle = `rgba(224, 242, 254, ${p.alpha * 0.85})` // Core white/cyan glow
+        } else {
+          // Parse hex and inject alpha
+          const opacity = Math.floor(p.alpha * 255).toString(16).padStart(2, '0')
+          fillStyle = `${color}${opacity}`
+        }
+
+        ctx.fillStyle = fillStyle
         ctx.fill()
-        p.x += p.vx
-        p.y += p.vy
-        if (p.x < 0 || p.x > canvas.width) p.vx *= -1
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1
       })
-      ctx.globalAlpha = 1
+
+      ctx.globalCompositeOperation = 'source-over'
       animRef.current = requestAnimationFrame(draw)
     }
 
@@ -75,25 +122,19 @@ export default function PlaygroundPage({ navigate }) {
 
     return () => {
       window.removeEventListener('resize', resize)
+      canvas.removeEventListener('mousemove', handleMouseMove)
+      canvas.removeEventListener('mouseleave', handleMouseLeave)
       if (animRef.current) cancelAnimationFrame(animRef.current)
     }
   }, [count, size, speed, color])
 
   const randomize = () => {
-    setCount(Math.floor(Math.random() * 2000) + 200)
-    setSize(+(Math.random() * 6 + 1).toFixed(1))
-    setSpeed(+(Math.random() * 4 + 0.5).toFixed(1))
-    const hue = Math.floor(Math.random() * 60) + 250
-    setColor(`hsl(${hue}, 70%, 60%)`)
+    setCount(Math.floor(Math.random() * 1200) + 400)
+    setSize(+(Math.random() * 4 + 1).toFixed(1))
+    setSpeed(+(Math.random() * 2.5 + 0.4).toFixed(1))
+    const colors = ['#8B5CF6', '#3B82F6', '#EC4899', '#10B981', '#F59E0B', '#EF4444', '#06B6D4']
+    setColor(colors[Math.floor(Math.random() * colors.length)])
   }
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } })
-    }, { threshold: 0.1 })
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el))
-    return () => observer.disconnect()
-  }, [])
 
   return (
     <div className="playground-section">
@@ -104,10 +145,6 @@ export default function PlaygroundPage({ navigate }) {
 
       <h1 className="fade-in">Code. Experiment. <span className="accent" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}>Create.</span></h1>
       <p className="playground-sub fade-in">A sandbox for creativity. Explore small experiments, creative coding and interactive ideas that push the boundaries of the web.</p>
-
-      <div className="playground-hero fade-in">
-        <img src="/images/starburst.png" alt="Creative experiment" className="playground-hero-img" />
-      </div>
 
       <div className="experiment-card fade-in">
         <div className="experiment-canvas">
@@ -132,15 +169,57 @@ export default function PlaygroundPage({ navigate }) {
           </div>
           <div className="control-group">
             <label>Color</label>
-            <input type="color" value={color} onChange={e => setColor(e.target.value)} />
+            <div style={{ position: 'relative' }}>
+              <input 
+                type="color" 
+                value={color} 
+                onChange={e => setColor(e.target.value)} 
+                id="color-picker-input" 
+                style={{ position: 'absolute', opacity: 0, width: 0, height: 0, pointerEvents: 'none' }}
+              />
+              <button 
+                onClick={() => document.getElementById('color-picker-input').click()}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '8px 12px',
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 8,
+                  cursor: 'pointer',
+                  color: 'var(--text-primary)',
+                  fontFamily: 'var(--font-mono, monospace)',
+                  fontSize: 13,
+                  transition: 'all 0.3s ease'
+                }}
+                className="color-picker-button"
+              >
+                <span style={{ display: 'inline-block', width: 14, height: 14, borderRadius: 3, backgroundColor: color }}></span>
+                <span>{color.toUpperCase()}</span>
+              </button>
+            </div>
           </div>
           <button className="randomize-btn" onClick={randomize}>Randomize</button>
         </div>
         <div className="built-with">
           <span className="built-with-label">Built with</span>
-          <span className="built-with-tag">Canvas API</span>
-          <span className="built-with-tag">React</span>
-          <span className="built-with-tag">TypeScript</span>
+          <span className="built-with-tag">
+            <svg viewBox="0 0 100 100" width="12" height="12" style={{ marginRight: 4 }}><polygon points="50 15, 85 35, 85 75, 50 95, 15 75, 15 35" fill="none" stroke="currentColor" strokeWidth="6"/><line x1="50" y1="15" x2="50" y2="95" stroke="currentColor" strokeWidth="4"/></svg>
+            Three.js
+          </span>
+          <span className="built-with-tag">
+            <svg viewBox="0 0 100 100" width="12" height="12" style={{ marginRight: 4 }}><polygon points="50 15, 90 80, 10 80" fill="none" stroke="currentColor" strokeWidth="8"/><path d="M38 72 L50 44 L62 72" fill="none" stroke="currentColor" strokeWidth="6"/></svg>
+            WebGL
+          </span>
+          <span className="built-with-tag">
+            <span style={{ color: '#88ce02', fontWeight: 'bold', fontSize: 10, marginRight: 4 }}>GS</span>
+            GSAP
+          </span>
+          <span className="built-with-tag">
+            <span style={{ color: '#3178c6', fontWeight: 'bold', fontSize: 10, marginRight: 4 }}>TS</span>
+            TypeScript
+          </span>
         </div>
       </div>
 

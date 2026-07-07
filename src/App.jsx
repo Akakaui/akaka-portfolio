@@ -10,7 +10,7 @@ import ContactPage from './pages/ContactPage'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light')
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark')
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)

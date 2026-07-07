@@ -13,10 +13,10 @@ export default function WorkPage() {
   }, [])
 
   const projects = [
-    { id: 1, title: 'Project One', category: 'Web Experience', filter: 'web', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop' },
-    { id: 2, title: 'Project Two', category: 'Automation', filter: 'automation', img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop' },
-    { id: 3, title: 'Project Three', category: 'CMS Integration', filter: 'cms', img: 'https://images.unsplash.com/photo-1555421689-d68471e189f2?w=800&h=600&fit=crop' },
-    { id: 4, title: 'Project Four', category: 'E-commerce', filter: 'ecommerce', img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop' },
+    { id: 1, title: 'Orbital', category: 'WebGL Experience', filters: ['all', 'web', '3d', 'interactive'], img: '/images/orbital.jpg' },
+    { id: 2, title: 'Nebula', category: 'Generative Art', filters: ['all', 'interactive'], img: '/images/nebula.jpg' },
+    { id: 3, title: 'Echoes', category: 'Audio Visualizer', filters: ['all', 'interactive'], img: '/images/echoes.jpg' },
+    { id: 4, title: 'Luminance', category: 'AI Experiment', filters: ['all', 'ai'], img: '/images/luminance.jpg' },
   ]
 
   const filters = [
@@ -27,12 +27,12 @@ export default function WorkPage() {
     { id: 'ai', label: 'AI' },
   ]
 
-  const filtered = filter === 'all' ? projects : projects.filter(p => p.filter === filter)
+  const filtered = filter === 'all' ? projects : projects.filter(p => p.filters.includes(filter))
 
   return (
     <div className="work-section">
       <div className="work-bg">
-        <img src="/images/earth-sunrise.png" alt="" className="work-bg-img" />
+        <img src="/images/nebula.jpg" alt="" className="work-bg-img" />
         <div className="work-bg-overlay"></div>
       </div>
       <div className="eyebrow">My Work</div>
