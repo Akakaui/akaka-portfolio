@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import ScrollIndicator from '../components/ScrollIndicator'
+
 
 export default function ContactPage() {
   useEffect(() => {
@@ -92,7 +92,7 @@ export default function ContactPage() {
         <div className="contact-earth-gradient"></div>
       </div>
 
-      <ScrollIndicator />
+
     </div>
   )
 }

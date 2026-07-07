@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import ScrollIndicator from '../components/ScrollIndicator'
+
 
 export default function WorkPage() {
   const [filter, setFilter] = useState('all')
@@ -48,7 +48,7 @@ export default function WorkPage() {
 
       <div className="projects-grid">
         {filtered.map((p, i) => (
-          <div key={p.id} className="project-card fade-in">
+          <div key={p.id} className="project-card fade-in" onClick={() => navigate('project', p)} style={{ cursor: 'pointer' }}>
             <img src={p.img} alt={p.title} loading="lazy" />
             <div className="project-card-gradient"></div>
             <span className="project-card-num">{String(i + 1).padStart(2, '0')}</span>
@@ -63,12 +63,12 @@ export default function WorkPage() {
         ))}
       </div>
 
-      <button className="view-all-btn">
+      <button className="view-all-btn fade-in" onClick={() => navigate('work')}>
         View all projects
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </button>
 
-      <ScrollIndicator />
+
     </div>
   )
 }

@@ -333,6 +333,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   padding: 20px; background: linear-gradient(transparent, rgba(0,0,0,0.7));
   color: #fff;
 }
+
 .featured-project-num {
   position: absolute; top: 16px; right: 16px;
   font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6);
@@ -686,3 +687,26 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 /* Fade-in animation */
 .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+.about-hero {
+  display: flex;
+  align-items: center;
+  min-height: 60vh;
+}
+.about-hero-content {
+  flex: 1;
+}
+.about-hero-visual {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.about-hero-img {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 50%;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  animation: float 6s ease-in-out infinite;
+}

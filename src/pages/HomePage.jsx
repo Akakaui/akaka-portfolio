@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import ScrollIndicator from '../components/ScrollIndicator'
+
 
 export default function HomePage({ navigate }) {
   useEffect(() => {
@@ -77,7 +77,7 @@ export default function HomePage({ navigate }) {
             </div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 12 }}>
-            <button className="view-project" onClick={() => navigate('work')}>
+            <button className="view-project" onClick={() => navigate('project', currentProject)}>
               View Project
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginLeft: 6 }}><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </button>
@@ -106,20 +106,20 @@ export default function HomePage({ navigate }) {
             <div className="card-header">
               <div className="eyebrow">About Me</div>
             </div>
-            <h3 className="about-card-headline">I build at the intersection of design, technology and <span className="accent">imagination.</span></h3>
-            <p className="about-card-copy">With a strong focus on performance, usability and detail, I create experiences that not only look beautiful, but feel intuitive.</p>
+            <h3 className="about-card-headline">I build at the intersection of reliability, speed and <span className="accent">clean code.</span></h3>
+            <p className="about-card-copy">With a strong focus on performance, usability and detail, I create systems that not only work flawlessly, but scale effortlessly.</p>
             <div className="stats-row">
               <div>
-                <div className="stat-num">6+</div>
-                <div className="stat-label">Years of Experience</div>
+                <div className="stat-num">3+</div>
+                <div className="stat-label">Years Experience</div>
               </div>
               <div>
-                <div className="stat-num">30+</div>
+                <div className="stat-num">15+</div>
                 <div className="stat-label">Projects Completed</div>
               </div>
               <div>
-                <div className="stat-num">12</div>
-                <div className="stat-label">Technologies Mastered</div>
+                <div className="stat-num">8+</div>
+                <div className="stat-label">Technologies</div>
               </div>
             </div>
           </div>
@@ -127,9 +127,27 @@ export default function HomePage({ navigate }) {
             <img src="/images/astronaut-helmet.jpg" alt="Astronaut Helmet" className="about-card-helmet-img" />
           </div>
         </div>
+        
+        <div className="card fade-in glass-card">
+          <div className="card-header">
+            <div className="eyebrow">Currently Exploring</div>
+          </div>
+          <div className="exploring-item">
+            <span className="exploring-dot"></span>
+            <span>Agentic AI & Advanced LLM Integrations</span>
+          </div>
+          <div className="exploring-item">
+            <span className="exploring-dot"></span>
+            <span>WebGPU & High-Performance Graphics</span>
+          </div>
+          <div className="exploring-item">
+            <span className="exploring-dot"></span>
+            <span>Spatial Computing & WebXR Experiences</span>
+          </div>
+        </div>
       </div>
 
-      <ScrollIndicator />
+
     </>
   )
 }

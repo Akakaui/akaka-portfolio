@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import ScrollIndicator from '../components/ScrollIndicator'
+
 
 export default function PlaygroundPage({ navigate }) {
   const canvasRef = useRef(null)
@@ -223,7 +223,7 @@ export default function PlaygroundPage({ navigate }) {
         </div>
       </div>
 
-      <ScrollIndicator />
+
     </div>
   )
 }
