@@ -17,14 +17,18 @@ export default function AboutPage({ navigate }) {
   ]
 
   const techStack = [
-    { icon: 'R', label: 'React' },
-    { icon: 'TS', label: 'TypeScript' },
-    { icon: 'N', label: 'Next.js' },
-    { icon: '⚡', label: 'Supabase' },
-    { icon: 'PG', label: 'PostgreSQL' },
-    { icon: 'Py', label: 'Python' },
-    { icon: 'TW', label: 'Tailwind CSS' },
-    { icon: 'JS', label: 'Node.js' },
+    { label: 'React', color: '#61DAFB' },
+    { label: 'TypeScript', color: '#3178C6' },
+    { label: 'Next.js', color: '#FFFFFF' },
+    { label: 'Supabase', color: '#3FCF8E' },
+    { label: 'PostgreSQL', color: '#4169E1' },
+    { label: 'Python', color: '#FFD43B' },
+    { label: 'Tailwind', color: '#06B6D4' },
+    { label: 'Node.js', color: '#68A063' },
+    { label: 'Three.js', color: '#FFFFFF' },
+    { label: 'GSAP', color: '#88CE02' },
+    { label: 'Git', color: '#F05032' },
+    { label: 'Docker', color: '#2496ED' },
   ]
 
   return (
@@ -76,8 +80,12 @@ export default function AboutPage({ navigate }) {
         <div className="tech-grid fade-in">
           {techStack.map((t, i) => (
             <div key={i} className="tech-item">
-              <div className="tech-icon">{t.icon}</div>
-              <span>{t.label}</span>
+              <div className="tech-icon" style={{ borderColor: t.color + '40', boxShadow: `0 0 12px ${t.color}20` }}>
+                <span style={{ color: t.color, fontSize: 11, fontWeight: 700, letterSpacing: '-0.02em' }}>
+                  {t.label.slice(0, 2).toUpperCase()}
+                </span>
+              </div>
+              <span className="tech-label">{t.label}</span>
             </div>
           ))}
         </div>

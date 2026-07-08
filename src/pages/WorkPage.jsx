@@ -13,10 +13,10 @@ export default function WorkPage({ navigate }) {
   }, [])
 
   const projects = [
-    { id: 1, title: 'Project One', category: 'Web Experience', filter: 'web', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop' },
-    { id: 2, title: 'Project Two', category: 'Automation', filter: 'automation', img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop' },
-    { id: 3, title: 'Project Three', category: 'CMS Integration', filter: 'cms', img: 'https://images.unsplash.com/photo-1555421689-d68471e189f2?w=800&h=600&fit=crop' },
-    { id: 4, title: 'Project Four', category: 'E-commerce', filter: 'ecommerce', img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop' },
+    { id: 1, title: 'Orbital', category: 'Web Experience', filter: 'web', img: '/images/orbital.jpg' },
+    { id: 2, title: 'Nebula', category: 'Automation', filter: 'automation', img: '/images/nebula.jpg' },
+    { id: 3, title: 'Echoes', category: 'CMS Integration', filter: 'cms', img: '/images/echoes.jpg' },
+    { id: 4, title: 'Luminance', category: 'E-commerce', filter: 'ecommerce', img: '/images/luminance.jpg' },
   ]
 
   const filters = [
@@ -48,7 +48,7 @@ export default function WorkPage({ navigate }) {
 
       <div className="projects-grid">
         {filtered.map((p, i) => (
-          <div key={p.id} className="project-card fade-in">
+          <div key={p.id} className="project-card fade-in" onClick={() => navigate('project', p)}>
             <img src={p.img} alt={p.title} loading="lazy" />
             <div className="project-card-gradient"></div>
             <span className="project-card-num">{String(i + 1).padStart(2, '0')}</span>

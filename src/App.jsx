@@ -8,6 +8,7 @@ import WorkPage from './pages/WorkPage'
 import PlaygroundPage from './pages/PlaygroundPage'
 import ContactPage from './pages/ContactPage'
 import ProjectPage from './pages/ProjectPage'
+import BlogPage from './pages/BlogPage'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -33,6 +34,7 @@ function App() {
     about: <AboutPage navigate={navigate} />,
     work: <WorkPage navigate={navigate} />,
     playground: <PlaygroundPage navigate={navigate} />,
+    blog: <BlogPage navigate={navigate} />,
     contact: <ContactPage />,
     project: <ProjectPage navigate={navigate} project={currentProject} />
   }

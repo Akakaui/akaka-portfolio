@@ -50,11 +50,11 @@ export default function HomePage({ navigate }) {
               <button aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg></button>
             </div>
           </div>
-          <div className="featured-project">
-            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=500&fit=crop" alt="Project" loading="lazy" />
+          <div className="featured-project" onClick={() => navigate('project', { id: 1, title: 'Orbital', category: 'Interactive', filter: 'interactive', img: '/images/orbital.jpg' })} style={{ cursor: 'pointer' }}>
+            <img src="/images/orbital.jpg" alt="Orbital" loading="lazy" />
             <span className="featured-project-num">01</span>
             <div className="featured-project-overlay">
-              <h3>Project One</h3>
+              <h3>Orbital</h3>
               <p>A full-stack web app built with modern tech</p>
             </div>
           </div>
