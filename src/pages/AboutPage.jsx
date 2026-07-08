@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import ScrollIndicator from '../components/ScrollIndicator'
 
 export default function AboutPage({ navigate }) {
   useEffect(() => {
@@ -10,28 +11,28 @@ export default function AboutPage({ navigate }) {
   }, [])
 
   const experience = [
-    { date: '2023 — Present', role: 'Senior Frontend Developer', company: 'Stellar Labs', desc: 'Leading the development of immersive web experiences using React, Three.js and WebGL.' },
-    { date: '2021 — 2023', role: 'Frontend Developer', company: 'Nova Studio', desc: 'Built interactive products and animations for global brands and startups.' },
-    { date: '2019 — 2021', role: 'UI Developer', company: 'Pixel Perfect', desc: 'Focused on building responsive interfaces and design systems.' },
+    { date: '2023 — Present', role: 'Full-Stack Developer', company: 'Freelance', desc: 'Building web apps, automation systems and CMS integrations for small businesses and brands.' },
+    { date: '2021 — 2023', role: 'Web Developer', company: 'Various Clients', desc: 'Developed responsive websites, landing pages and backend systems using Python and modern frameworks.' },
+    { date: '2019 — 2021', role: 'Junior Developer', company: 'Self-taught', desc: 'Learned web development, built personal projects and contributed to open-source communities.' },
   ]
 
   const techStack = [
-    { icon: <img src="https://cdn.simpleicons.org/react/61DAFB" alt="React" width="24" height="24" />, label: 'React' },
-    { icon: <img src="https://cdn.simpleicons.org/typescript/3178C6" alt="TypeScript" width="24" height="24" />, label: 'TypeScript' },
-    { icon: <img src="https://cdn.simpleicons.org/nestjs/E0234E" alt="Nest js" width="24" height="24" />, label: 'Nest js' },
-    { icon: <img src="https://cdn.simpleicons.org/threedotjs/white" alt="Three.js" width="24" height="24" />, label: 'Three.js' },
-    { icon: <img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" alt="Tailwind CSS" width="24" height="24" />, label: 'Tailwind CSS' },
-    { icon: <img src="https://cdn.simpleicons.org/webgl/990000" alt="WebGL" width="24" height="24" />, label: 'WebGL' },
-    { icon: <img src="https://cdn.simpleicons.org/greensock/88CE02" alt="GSAP" width="24" height="24" />, label: 'GSAP' },
-    { icon: <img src="https://cdn.simpleicons.org/nodedotjs/339933" alt="Node.js" width="24" height="24" />, label: 'Node.js' },
+    { icon: 'R', label: 'React' },
+    { icon: 'TS', label: 'TypeScript' },
+    { icon: 'N', label: 'Next.js' },
+    { icon: '⚡', label: 'Supabase' },
+    { icon: 'PG', label: 'PostgreSQL' },
+    { icon: 'Py', label: 'Python' },
+    { icon: 'TW', label: 'Tailwind CSS' },
+    { icon: 'JS', label: 'Node.js' },
   ]
 
   return (
     <>
-      <div className="about-section fade-in">
-        <div className="about-hero">
-          <div className="about-hero-content">
-            <div className="eyebrow">ABOUT ME</div>
+      <div className="about-hero">
+        <div className="about-grid">
+          <div className="fade-in">
+            <div className="eyebrow">About Me</div>
             <h2 className="about-headline">Driven by <span className="accent">curiosity.</span><br />Built for <span className="accent">impact.</span></h2>
             <p className="about-body">I'm a developer who loves turning complex problems into simple, beautiful and intuitive solutions. My journey spans code, automation and system design — constantly exploring new technologies to push what's possible on the web.</p>
             <div className="hero-buttons">
@@ -45,8 +46,10 @@ export default function AboutPage({ navigate }) {
               </button>
             </div>
           </div>
-          <div className="about-hero-visual">
-            <img src="/images/bg-astronaut.png" alt="Astronaut in front of purple ring" className="about-hero-img" />
+          <div className="about-visual fade-in">
+            <div className="astronaut-ring">
+              <img src="/images/astronaut-portal.png" alt="Astronaut" className="astronaut-img" />
+            </div>
           </div>
         </div>
       </div>
@@ -58,11 +61,9 @@ export default function AboutPage({ navigate }) {
             {experience.map((item, i) => (
               <div key={i} className="timeline-item">
                 <div className="timeline-dot"></div>
-                <div className="timeline-details">
-                  <div className="timeline-date">{item.date}</div>
-                  <div className="timeline-role">{item.role}</div>
-                  <div className="timeline-company">{item.company}</div>
-                </div>
+                <div className="timeline-date">{item.date}</div>
+                <div className="timeline-role">{item.role}</div>
+                <div className="timeline-company">{item.company}</div>
                 <div className="timeline-desc">{item.desc}</div>
               </div>
             ))}
@@ -82,7 +83,7 @@ export default function AboutPage({ navigate }) {
         </div>
       </div>
 
-
+      <ScrollIndicator />
     </>
   )
 }

@@ -37,23 +37,8 @@ function App() {
     project: <ProjectPage navigate={navigate} project={currentProject} />
   }
 
-  const bgImages = {
-    home: 'url(/images/bg-earth-night.png)',
-    about: 'url(/images/bg-astronaut.png)',
-    work: 'url(/images/bg-earth-night.png)', 
-    playground: 'none',
-    contact: 'url(/images/bg-sunrise.png)',
-    project: 'url(/images/bg-earth-night.png)'
-  }
-
   return (
-    <div className="flex min-h-screen" style={{
-      backgroundImage: theme === 'dark' ? bgImages[currentPage] : 'none',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundAttachment: 'fixed',
-      backgroundRepeat: 'no-repeat'
-    }}>
+    <div className="flex min-h-screen">
       <Sidebar currentPage={currentPage} navigate={navigate} theme={theme} toggleTheme={toggleTheme} />
       <TopBar />
       <main className="flex-1 min-h-screen pb-8 main-content" style={{ zIndex: 1, position: 'relative' }}>

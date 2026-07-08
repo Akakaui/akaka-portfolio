@@ -205,16 +205,12 @@ export default function PlaygroundPage({ navigate }) {
         <div className="built-with">
           <span className="built-with-label">Built with</span>
           <span className="built-with-tag">
-            <svg viewBox="0 0 100 100" width="12" height="12" style={{ marginRight: 4 }}><polygon points="50 15, 85 35, 85 75, 50 95, 15 75, 15 35" fill="none" stroke="currentColor" strokeWidth="6"/><line x1="50" y1="15" x2="50" y2="95" stroke="currentColor" strokeWidth="4"/></svg>
-            Three.js
+            <svg viewBox="0 0 24 24" width="12" height="12" style={{ marginRight: 4 }} fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 12l3 3 7-7"/></svg>
+            Canvas 2D
           </span>
           <span className="built-with-tag">
-            <svg viewBox="0 0 100 100" width="12" height="12" style={{ marginRight: 4 }}><polygon points="50 15, 90 80, 10 80" fill="none" stroke="currentColor" strokeWidth="8"/><path d="M38 72 L50 44 L62 72" fill="none" stroke="currentColor" strokeWidth="6"/></svg>
-            WebGL
-          </span>
-          <span className="built-with-tag">
-            <span style={{ color: '#88ce02', fontWeight: 'bold', fontSize: 10, marginRight: 4 }}>GS</span>
-            GSAP
+            <svg viewBox="0 0 24 24" width="12" height="12" style={{ marginRight: 4 }} fill="#61DAFB"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            React
           </span>
           <span className="built-with-tag">
             <span style={{ color: '#3178c6', fontWeight: 'bold', fontSize: 10, marginRight: 4 }}>TS</span>
