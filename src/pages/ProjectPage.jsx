@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 const projectDetails = {
   1: {
@@ -7,7 +7,7 @@ const projectDetails = {
     roles: ['Developer', 'Designer'],
     tools: ['Three.js', 'WebGL', 'GSAP'],
     desc: 'A deep dive into building scalable and performant digital experiences. Exploring new paradigms of interaction and design.',
-    gallery: ['/images/orbital.jpg', '/images/nebula.jpg', '/images/echoes.jpg'],
+    gallery: ['/images/orbital.jpg', '/images/nebula.jpg', '/images/echoes.jpg', '/images/luminance.jpg'],
   },
   2: {
     title: 'Nebula',
@@ -15,7 +15,7 @@ const projectDetails = {
     roles: ['Developer'],
     tools: ['Python', 'React', 'Supabase'],
     desc: 'An AI-driven platform that generates creative content and automates workflows.',
-    gallery: ['/images/nebula.jpg', '/images/orbital.jpg', '/images/luminance.jpg'],
+    gallery: ['/images/nebula.jpg', '/images/orbital.jpg', '/images/luminance.jpg', '/images/echoes.jpg'],
   },
   3: {
     title: 'Echoes',
@@ -23,7 +23,7 @@ const projectDetails = {
     roles: ['Developer', 'Designer'],
     tools: ['Three.js', 'WebGL', 'Blender'],
     desc: 'Interactive 3D experiences that push the boundaries of web-based rendering.',
-    gallery: ['/images/echoes.jpg', '/images/luminance.jpg', '/images/orbital.jpg'],
+    gallery: ['/images/echoes.jpg', '/images/luminance.jpg', '/images/orbital.jpg', '/images/nebula.jpg'],
   },
   4: {
     title: 'Luminance',
@@ -31,11 +31,14 @@ const projectDetails = {
     roles: ['Developer'],
     tools: ['React', 'TypeScript', 'Tailwind'],
     desc: 'A visually stunning web application built with modern frameworks and clean architecture.',
-    gallery: ['/images/luminance.jpg', '/images/orbital.jpg', '/images/nebula.jpg'],
+    gallery: ['/images/luminance.jpg', '/images/orbital.jpg', '/images/nebula.jpg', '/images/echoes.jpg'],
   },
 }
 
 export default function ProjectPage({ navigate, project }) {
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const intervalRef = useRef(null)
+
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } })
@@ -57,6 +60,24 @@ export default function ProjectPage({ navigate, project }) {
   }
 
   const details = projectDetails[project.id] || projectDetails[1]
+  const allImages = [project.img || details.gallery[0], ...details.gallery]
+
+  // Auto-swipe carousel
+  useEffect(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current)
+    intervalRef.current = setInterval(() => {
+      setCurrentSlide(prev => (prev + 1) % allImages.length)
+    }, 3000)
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
+  }, [allImages.length])
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index)
+    if (intervalRef.current) clearInterval(intervalRef.current)
+    intervalRef.current = setInterval(() => {
+      setCurrentSlide(prev => (prev + 1) % allImages.length)
+    }, 3000)
+  }
 
   return (
     <div className="project-section fade-in">
@@ -72,8 +93,28 @@ export default function ProjectPage({ navigate, project }) {
         </p>
       </div>
 
-      <div className="project-hero-image" style={{ marginTop: 40, marginBottom: 60, borderRadius: 16, overflow: 'hidden' }}>
-        <img src={project.img || details.gallery[0]} alt={details.title} style={{ width: '100%', display: 'block', objectFit: 'cover' }} />
+      {/* Auto-swiping carousel */}
+      <div className="project-carousel">
+        <div className="project-carousel-track">
+          {allImages.map((img, i) => (
+            <div 
+              key={i} 
+              className={`project-carousel-slide ${i === currentSlide ? 'active' : ''}`}
+            >
+              <img src={img} alt={`${details.title} ${i + 1}`} />
+            </div>
+          ))}
+        </div>
+        <div className="project-carousel-dots">
+          {allImages.map((_, i) => (
+            <button 
+              key={i} 
+              className={`carousel-dot ${i === currentSlide ? 'active' : ''}`}
+              onClick={() => goToSlide(i)}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
       </div>
 
       <div className="project-content fade-in" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 40, marginBottom: 80 }}>
@@ -108,12 +149,6 @@ export default function ProjectPage({ navigate, project }) {
         Visit Project
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </button>
-
-      <div className="project-gallery fade-in" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 60 }}>
-        {details.gallery.map((img, i) => (
-          <img key={i} src={img} alt={`Gallery ${i + 1}`} style={{ width: '100%', height: 200, borderRadius: 12, objectFit: 'cover' }} />
-        ))}
-      </div>
     </div>
   )
 }

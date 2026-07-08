@@ -158,10 +158,7 @@ export default function TopBar() {
 
   return (
     <div className="top-bar">
-      <div className="availability-pill">
-        Available for new opportunities.
-      </div>
-      <button 
+      <button
         className={`now-playing ${isPlaying ? 'active' : ''}`}
         onClick={toggleMusic}
         style={{ cursor: 'pointer', transition: 'all 0.3s ease' }}
